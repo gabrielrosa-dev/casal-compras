@@ -1,5 +1,5 @@
 // Leitura de NFC-e: validação da URL do QR Code e extração dos itens da página da SEFAZ.
-// O layout "txtTit / Rqtd / RUN / RvlUnit / valor" é o usado pelo portal NFC-e de vários estados (PR, SC, RS...).
+// Portais NFC-e usam variantes como "txtTit" e "txtTit2" para o nome do item.
 
 const ENTITIES = {
   nbsp: ' ', amp: '&', lt: '<', gt: '>', quot: '"', apos: "'",
@@ -41,7 +41,7 @@ export function parseNfceHtml(html) {
   const items = [];
   for (const block of html.split(/<tr\b/i)) {
     if (!/txtTit/.test(block) || !/Rqtd/.test(block)) continue;
-    const name = span(block, 'txtTit');
+    const name = span(block, 'txtTit2') || span(block, 'txtTit');
     const qty = brNum(span(block, 'Rqtd').replace(/^[^:]*:/, ''));
     const unitPrice = brNum(span(block, 'RvlUnit').replace(/^[^:]*:/, ''));
     const total = brNum(span(block, 'valor'));

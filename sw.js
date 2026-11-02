@@ -1,12 +1,12 @@
 // Aumente a versão sempre que publicar mudanças, para limpar o cache antigo.
-const CACHE = 'casalcompras-2.2.1';
+const CACHE = 'casalcompras-2.3.0';
 
 const APP_SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'css/styles.css',
   'icons/icon-192.png', 'icons/icon-512.png',
-  'js/theme.js', 'js/tailwind-config.js', 'js/config.js', 'js/utils.js', 'js/data.js', 'js/state.js',
+  'js/theme.js', 'js/tailwind-config.js', 'js/config.js', 'js/utils.js', 'js/data.js', 'js/state.js', 'js/recipes.js',
   'js/intelligence.js', 'js/services/prices.js', 'js/services/qr.js', 'js/services/nfce.js', 'js/services/sync.js', 'js/services/share.js', 'js/services/pwa.js',
-  'js/views/shared.js', 'js/views/list.js', 'js/views/smart.js', 'js/views/compare.js', 'js/views/receipts.js',
+  'js/views/shared.js', 'js/views/list.js', 'js/views/smart.js', 'js/views/recipes.js', 'js/views/compare.js', 'js/views/receipts.js',
   'js/views/market.js', 'js/views/onboarding.js', 'js/views/settings.js', 'js/app.js'
 ];
 

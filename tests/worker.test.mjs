@@ -41,6 +41,26 @@ await test('parser extrai emitente, data, total e itens', () => {
   assert.strictEqual(parseNfceHtml('<html>nada</html>').items.length, 0);
 });
 
+await test('parser aceita o layout da SEFAZ-PR com o nome do item em txtTit2', () => {
+  const page = `<html><body>
+    <div class="txtTopo">MERCADO EXEMPLO</div>
+    <div>CNPJ: 12.345.678/0001-90</div>
+    <tr><td><span class="txtTit2">ARROZ TIPO 1 5KG</span>
+      <span class="RCod">(Código: 7891234567890)</span>
+      <span class="Rqtd"><strong>Qtde.:</strong>1,0000</span>
+      <span class="RUN"><strong>UN: </strong>UN</span>
+      <span class="RvlUnit"><strong>Vl. Unit.:</strong>29,90</span></td>
+      <td class="txtTit3 noWrap">Vl. Total <span class="valor">29,90</span></td></tr>
+  </body></html>`;
+  const n = parseNfceHtml(page);
+  assert.strictEqual(n.items.length, 1);
+  assert.deepStrictEqual(n.items[0], {
+    name: 'ARROZ TIPO 1 5KG', code: '7891234567890', qty: 1,
+    unit: 'UN', unitPrice: 29.9, total: 29.9
+  });
+  assert.strictEqual(n.market.cnpj, '12345678000190');
+});
+
 await test('origem não autorizada recebe 403', async () => {
   assert.strictEqual((await call('/stores', {}, 'https://evil.com')).status, 403);
   assert.strictEqual((await call('/stores')).status, 200);

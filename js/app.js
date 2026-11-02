@@ -1,13 +1,14 @@
 const TABS = [
   ['list', 'shopping-cart', 'Lista'],
   ['smart', 'bot', 'Histórico'],
+  ['recipes', 'chef-hat', 'Receitas'],
   ['compare', 'bar-chart-3', 'Preços'],
   ['receipts', 'receipt', 'Nota'],
   ['market', 'zap', 'Mercado']
 ];
 
 const ROUTES = {
-  list: vList, smart: vSmart, compare: vCompare, receipts: vReceipts, market: vMarket, settings: vSettings
+  list: vList, smart: vSmart, recipes: vRecipes, compare: vCompare, receipts: vReceipts, market: vMarket, settings: vSettings
 };
 
 /* ============ Renderização ============ */
@@ -118,6 +119,15 @@ const actions = {
     log(`Gerou lista inteligente (${sug.length} itens)`);
     toast(`${sug.length} itens adicionados`);
     tab = 'list';
+  },
+  addRecipeMissing: (it, b) => {
+    const recipe = recipeSuggestions(state.receipts).find(r => r.id === b.dataset.recipe);
+    if (!recipe) { toast('Essa receita não está mais disponível'); return false; }
+    const missing = recipe.missing.filter(i => !inList(i.name));
+    if (!missing.length) { toast('Os itens que faltam já estão na lista'); return false; }
+    missing.forEach(i => addItem(i.name, 1, true));
+    tab = 'list';
+    toast(`${missing.length} ${missing.length === 1 ? 'item adicionado' : 'itens adicionados'} à lista`);
   },
   editPrice: it => {
     if (!it) return false;

@@ -149,6 +149,34 @@ await test('sugestões usam o histórico', () => {
   assert.ok(knownNames().length >= CATALOG.length);
 });
 
+await test('receitas usam apenas as cinco compras mais recentes e mostram o que falta', () => {
+  fresh();
+  state.receipts = Array.from({ length: 6 }, (_, index) => ({
+    id: `recipe-${index}`,
+    date: Date.now() - index * dayMs,
+    items: index === 5
+      ? [{ name: 'Cachaça', qty: 1, price: 20 }]
+      : [{ name: 'Banana Prata kg', qty: 1, price: 5 }, { name: 'Leite Integral 1L', qty: 1, price: 5 }]
+  }));
+  const suggestions = recipeSuggestions(state.receipts);
+  const smoothie = suggestions.find(r => r.id === 'vitamina-banana');
+  assert.ok(smoothie);
+  assert.strictEqual(smoothie.available.length, 2);
+  assert.deepStrictEqual(smoothie.missing.map(i => i.name), ['Iogurte natural', 'Aveia']);
+  assert.strictEqual(suggestions.some(r => r.id === 'caipirinha'), false, 'não considera a compra mais antiga');
+
+  tab = 'recipes';
+  render();
+  assert.ok(__els['#view'].innerHTML.includes('Receitas e drinks'));
+  assert.ok(__els['#view'].innerHTML.includes('Adicionar 2 itens que faltam à lista'));
+
+  fresh();
+  state.receipts = [{ id: 'm', date: Date.now(), items: [{ name: 'Macarrão Espaguete 500g', qty: 1, price: 4 }] }];
+  actions.addRecipeMissing(null, { dataset: { recipe: 'macarrao-molho' } });
+  assert.deepStrictEqual(state.list.map(i => i.name), ['Molho de tomate', 'Tomate', 'Cebola', 'Queijo']);
+  assert.strictEqual(tab, 'list');
+});
+
 await test('backup: exporta/importa e rejeita JSON qualquer', () => {
   fresh();
   state.receipts = demoData().receipts;

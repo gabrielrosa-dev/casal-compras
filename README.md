@@ -6,8 +6,9 @@ App de compras para casais (HTML + Tailwind CDN + JS puro). Instalável como PWA
 1. **Lista**: adicione itens (autocompletar pelo histórico) ou use **Gerar por histórico**.
 2. **Supermercado**: escolha o mercado, marque os itens no carrinho, informe preços e toque em **Finalizar compra** – isso grava a compra no histórico.
 3. **Nota**: leia o QR da NFC-e e o app busca itens, quantidades, preços e nomes completos sozinho (precisa do servidor); confira e salve. Também dá para registrar manualmente.
-4. **Comparar**: mostra o mercado mais barato por item com base no histórico (e preços online, se configurado).
-5. **Ajustes** (engrenagem): mercados, servidor, sincronização, backup, demonstração, instalar app.
+4. **Receitas**: sugere pratos e drinks com itens das cinco compras mais recentes e permite adicionar à lista os ingredientes que não apareceram nelas.
+5. **Comparar**: mostra o mercado mais barato por item com base no histórico (e preços online, se configurado).
+6. **Ajustes** (engrenagem): mercados, servidor, sincronização, backup, demonstração, instalar app.
 
 ## Sincronização entre os celulares
 Em **Ajustes → Servidor do casal** cole a URL do Worker (veja `worker/README.md`), depois **Criar grupo do casal** e **Convidar**.

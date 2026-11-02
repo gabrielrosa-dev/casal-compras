@@ -29,8 +29,7 @@ Um único Worker gratuito faz três coisas, sempre liberado só para o seu site 
 ## Observações
 
 - O KV é eventualmente consistente (até ~1 min entre regiões). Como o app mescla registro a registro, nenhum dado é perdido; só pode demorar um pouco para aparecer.
-- A leitura de itens da NFC-e depende do layout da página da SEFAZ do estado. O leitor segue o padrão do portal NFC-e
-  (`txtTit`, `Rqtd`, `RvlUnit`, `valor`) e foi testado com uma nota de exemplo sintética (`tests/fixtures`). Se alguma nota não for lida,
+- A leitura de itens da NFC-e depende do layout da página da SEFAZ do estado. O leitor reconhece variantes como `txtTit`/`txtTit2`, além de `Rqtd`, `RvlUnit` e `valor`, e é testado com exemplos sintéticos (`tests/fixtures`). Se alguma nota não for lida,
   o app avisa e mantém o preenchimento manual; para adaptar, salve a página da nota (HTML) e ajuste `nfce.js`.
 - Preços online: qualquer loja VTEX que responda a `/api/catalog_system/pub/products/search?ft=leite`
   funciona; inclua em `STORES` (aqui) e em `PRICE_API.stores` (`js/config.js`). Condor e Atacadão não expõem essa API.
