@@ -34,7 +34,15 @@ function sanitizeNfce(raw) {
 
 async function fetchNfce(url) {
   const base = apiBase();
-  const res = await fetch(`${base}/nfce?url=${encodeURIComponent(url)}`);
+  let res;
+  try {
+    res = await fetch(`${base}/nfce?url=${encodeURIComponent(url)}`);
+  } catch (e) {
+    if (e && e.name === 'TypeError') {
+      throw new Error('Falha de conexão com o servidor. Confira a URL em Ajustes e se ALLOWED_ORIGINS no Worker inclui o domínio do app.');
+    }
+    throw e;
+  }
   if (!res.ok) {
     let msg = '';
     try { msg = (await res.json()).error; } catch (e) { /* sem corpo */ }

@@ -27,6 +27,27 @@ await test('parseNfce extrai chave, CNPJ e URL', () => {
   assert.strictEqual(parseNfce('javascript:alert(1)').ok, false);
 });
 
+await test('leitor alternativo tenta jsQR quando BarcodeDetector não encontra o código', async () => {
+  const oldDetector = globalThis.BarcodeDetector;
+  const oldWindowDetector = window.BarcodeDetector;
+  const oldJsQR = window.jsQR;
+  const oldCreateElement = document.createElement;
+  globalThis.BarcodeDetector = class { async detect() { return []; } };
+  window.BarcodeDetector = globalThis.BarcodeDetector;
+  window.jsQR = () => ({ data: 'qr lido pelo fallback' });
+  document.createElement = () => ({
+    getContext: () => ({ drawImage() {}, getImageData: () => ({ data: [] }) })
+  });
+  try {
+    assert.strictEqual(await decodeQr({}, 1, 1), 'qr lido pelo fallback');
+  } finally {
+    globalThis.BarcodeDetector = oldDetector;
+    window.BarcodeDetector = oldWindowDetector;
+    window.jsQR = oldJsQR;
+    document.createElement = oldCreateElement;
+  }
+});
+
 await test('sanitizeState descarta lixo e limita valores', () => {
   assert.strictEqual(sanitizeState(null), null);
   assert.strictEqual(sanitizeState([]), null);
@@ -221,6 +242,11 @@ await test('ler QR importa itens da nota, reconhece o mercado e evita nota repet
   await applyQr('http://www.fazenda.pr.gov.br/nfce/qrcode?p=' + chave + '|2');
   assert.strictEqual(ui.draft.nfce.status, 'error');
   assert.ok(__els['#view'].innerHTML.includes('Preencha manualmente'));
+
+  globalThis.fetch = async () => { throw new TypeError('Failed to fetch'); };
+  await applyQr('http://www.fazenda.pr.gov.br/nfce/qrcode?p=' + chave + '|2');
+  assert.strictEqual(ui.draft.nfce.status, 'error');
+  assert.ok(ui.draft.nfce.error.includes('ALLOWED_ORIGINS'));
 });
 
 await test('todas as telas renderizam sem erro, NaN ou undefined', () => {

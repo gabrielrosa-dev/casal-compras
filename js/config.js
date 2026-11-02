@@ -1,5 +1,5 @@
 const APP = {
-  version: '2.1.0',
+  version: '2.2.1',
   storageKey: 'casalcompras.v2',
   people: ['Gabriel', 'Danielle'],
   defaultMarkets: ['Condor', 'Atacadão', 'Jacomar', 'Super Muffato'],

@@ -27,7 +27,7 @@ async function decodeQr(source, width, height) {
     try {
       qrDetector = qrDetector || new BarcodeDetector({ formats: ['qr_code'] });
       const found = await qrDetector.detect(source);
-      return found.length ? found[0].rawValue : null;
+      if (found.length) return found[0].rawValue;
     } catch (e) { /* cai para jsQR */ }
   }
   if (!window.jsQR) await loadScript(JSQR_URL);

@@ -31,7 +31,7 @@ function render() {
   $('#nav').classList.toggle('hidden', onboarding);
   renderChrome();
   $('#names').innerHTML = knownNames().map(n => `<option value="${esc(n)}">`).join('');
-  $('#view').innerHTML = `<div class="view">${(onboarding ? vOnboarding : ROUTES[tab])()}</div>`;
+  $('#view').innerHTML = `<div class="view">${onboarding ? '' : (tab === 'list' || tab === 'settings' ? installBanner() : '')}${(onboarding ? vOnboarding : ROUTES[tab])()}</div>`;
   lucide.createIcons();
 }
 
@@ -199,6 +199,11 @@ const actions = {
     toast('Dados apagados');
   },
   installApp: () => { installApp(); return false; },
+  dismissInstall: () => {
+    try { localStorage.setItem(INSTALL_DISMISS_KEY, '1'); } catch (e) { /* ignora */ }
+    render();
+    return false;
+  },
 
   createSync: () => {
     if (!apiBase()) { toast('Informe a URL do servidor primeiro'); return false; }

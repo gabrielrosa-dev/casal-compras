@@ -14,8 +14,9 @@ Um único Worker gratuito faz três coisas, sempre liberado só para o seu site 
 2. Dentro desta pasta: `wrangler kv namespace create SYNC` e cole o `id` mostrado em `wrangler.toml` (`[[kv_namespaces]]`).
 3. Em `wrangler.toml`, troque `ALLOWED_ORIGINS` pelo endereço do seu GitHub Pages
    (ex.: `https://gabriel.github.io`, sem barra no final). Para testar local, acrescente `,http://localhost:8080`.
+   Use exatamente a origem que aparece na barra do navegador, incluindo `https://` e sem caminho (por exemplo, sem `/casal-compras`). Se a origem não corresponder, o navegador pode mostrar apenas um erro de rede ao importar a nota.
 4. `wrangler deploy`
-5. Copie a URL (`https://casalcompras-precos.<conta>.workers.dev`) e cole em **Ajustes → Servidor do casal**.
+5. Copie a URL exibida pelo `wrangler deploy` (com este `wrangler.toml`, será `https://casal-compras.<conta>.workers.dev`) e cole em **Ajustes → Servidor do casal**.
 6. Ainda em Ajustes, toque em **Criar grupo do casal** e envie o convite para o outro celular.
 
 ## Segurança

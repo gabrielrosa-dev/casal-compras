@@ -1,5 +1,5 @@
 // Aumente a versão sempre que publicar mudanças, para limpar o cache antigo.
-const CACHE = 'casalcompras-2.1.0';
+const CACHE = 'casalcompras-2.2.1';
 
 const APP_SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'css/styles.css',
@@ -19,7 +19,8 @@ const CDN_HOSTS = ['cdn.tailwindcss.com', 'unpkg.com', 'cdn.jsdelivr.net'];
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE);
-    await cache.addAll(APP_SHELL);
+    // addAll falha por inteiro se um arquivo faltar; assim o app ainda instala e cacheia o que existir
+    await Promise.allSettled(APP_SHELL.map(u => cache.add(u)));
     // CDNs são "opacos" (sem CORS); falha aqui não impede a instalação
     await Promise.allSettled(CDN.map(u => cache.add(new Request(u, { mode: 'no-cors' }))));
     self.skipWaiting();
