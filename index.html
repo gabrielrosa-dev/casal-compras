@@ -11,67 +11,64 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>CasalCompras - Inteligência Residencial</title>
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icons/icon-192.png" type="image/png">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
-<!-- Aplica o tema salvo antes de renderizar (evita flash branco no modo escuro) -->
-<script src="js/theme.js"></script>
+<link rel="icon" href="icones/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icones/icon-192.png">
+<!-- Aplica o tema salvo antes da tela carregar para evitar o clarão inicial. -->
+<script src="codigo/tema.js"></script>
 <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-<script src="js/tailwind-config.js"></script>
+<script src="codigo/configuracao-tailwind.js"></script>
 <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
-<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="estilos/estilos.css">
 </head>
 <body class="bg-page text-ink">
 
-<header class="fixed top-0 inset-x-0 z-30 bg-gradient-to-r from-violet-600 via-purple-600 to-pink-500 text-white safe-top shadow-lg">
-  <div class="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+<header class="fixed top-0 inset-x-0 z-30 bg-violet-700 text-white safe-top">
+  <div class="max-w-2xl mx-auto px-4 py-2 flex items-center justify-between gap-2">
     <div class="flex items-center gap-2 min-w-0">
-      <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center shrink-0"><i data-lucide="shopping-basket" class="w-5 h-5"></i></div>
-      <div class="leading-tight min-w-0">
-        <h1 class="font-bold text-base truncate">CasalCompras</h1>
-        <p class="text-[11px] text-white/80 truncate">Inteligência Residencial</p>
-      </div>
+      <div class="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center shrink-0"><i data-lucide="shopping-basket" class="w-5 h-5"></i></div>
+      <h1 class="font-bold text-base truncate">CasalCompras</h1>
     </div>
-    <div class="flex items-center gap-1.5 shrink-0">
-      <button id="themeBtn" data-theme-toggle aria-label="Alternar tema claro/escuro" class="tap w-9 h-9 rounded-full bg-white/20 flex items-center justify-center"></button>
-      <button id="settingsBtn" data-tab="settings" aria-label="Ajustes" class="tap w-9 h-9 rounded-full bg-white/20 flex items-center justify-center"></button>
+    <div class="flex items-center gap-1 shrink-0">
+      <button id="themeBtn" data-theme-toggle aria-label="Alternar tema claro/escuro" title="Tema" class="tap w-8 h-8 rounded-full hover:bg-white/15 flex items-center justify-center"></button>
+      <button id="settingsBtn" data-tab="settings" aria-label="Ajustes" title="Ajustes" class="tap w-8 h-8 rounded-full hover:bg-white/15 flex items-center justify-center"></button>
       <div id="profileSwitch" class="flex bg-black/20 rounded-full p-1 text-sm font-semibold"></div>
     </div>
   </div>
 </header>
 
-<main id="view" class="max-w-2xl mx-auto px-4 pt-[88px] pb-28"></main>
+<main id="view" class="max-w-2xl mx-auto px-4 pt-[64px] pb-20"></main>
 <datalist id="names"></datalist>
 
-<nav id="nav" class="fixed bottom-0 inset-x-0 z-30 bg-surface/95 backdrop-blur border-t border-line safe-bottom shadow-[0_-4px_16px_rgba(76,29,149,.10)]">
-  <div id="tabs" class="max-w-2xl mx-auto grid grid-cols-6"></div>
+<nav id="nav" aria-label="Navegação principal" class="fixed bottom-0 inset-x-0 z-30 bg-surface/95 backdrop-blur border-t border-line safe-bottom">
+  <div id="tabs" class="max-w-2xl mx-auto grid grid-cols-6 px-1"></div>
 </nav>
 
-<div id="toast" role="status" class="fixed left-1/2 -translate-x-1/2 bottom-24 z-50 hidden max-w-[90%] bg-gray-900 text-white text-sm px-4 py-2 rounded-full shadow-lg text-center"></div>
+<div id="toast" role="status" class="fixed left-1/2 -translate-x-1/2 bottom-20 z-50 hidden max-w-[90%] bg-gray-900 text-white text-sm px-4 py-2 rounded-full shadow-lg text-center"></div>
 
 <noscript><p class="p-6 text-center">O CasalCompras precisa de JavaScript para funcionar.</p></noscript>
 
-<!-- A ordem importa: scripts clássicos compartilham o escopo global (funciona também via file://) -->
-<script src="js/config.js"></script>
-<script src="js/utils.js"></script>
-<script src="js/data.js"></script>
-<script src="js/state.js"></script>
-<script src="js/intelligence.js"></script>
-<script src="js/recipes.js"></script>
-<script src="js/services/prices.js"></script>
-<script src="js/services/qr.js"></script>
-<script src="js/services/nfce.js"></script>
-<script src="js/services/sync.js"></script>
-<script src="js/services/share.js"></script>
-<script src="js/services/pwa.js"></script>
-<script src="js/views/shared.js"></script>
-<script src="js/views/list.js"></script>
-<script src="js/views/smart.js"></script>
-<script src="js/views/recipes.js"></script>
-<script src="js/views/compare.js"></script>
-<script src="js/views/receipts.js"></script>
-<script src="js/views/market.js"></script>
-<script src="js/views/onboarding.js"></script>
-<script src="js/views/settings.js"></script>
-<script src="js/app.js"></script>
+<!-- A ordem importa: os scripts compartilham o escopo global do navegador. -->
+<script src="codigo/configuracoes.js"></script>
+<script src="codigo/utilitarios.js"></script>
+<script src="codigo/dados.js"></script>
+<script src="codigo/estado.js"></script>
+<script src="codigo/inteligencia.js"></script>
+<script src="codigo/receitas.js"></script>
+<script src="codigo/servicos/precos.js"></script>
+<script src="codigo/servicos/codigo-qr.js"></script>
+<script src="codigo/servicos/nota-fiscal.js"></script>
+<script src="codigo/servicos/sincronizacao.js"></script>
+<script src="codigo/servicos/compartilhamento.js"></script>
+<script src="codigo/servicos/pwa.js"></script>
+<script src="codigo/telas/componentes.js"></script>
+<script src="codigo/telas/lista.js"></script>
+<script src="codigo/telas/historico-inteligente.js"></script>
+<script src="codigo/telas/receitas.js"></script>
+<script src="codigo/telas/comparar.js"></script>
+<script src="codigo/telas/compras.js"></script>
+<script src="codigo/telas/mercado.js"></script>
+<script src="codigo/telas/primeiros-passos.js"></script>
+<script src="codigo/telas/ajustes.js"></script>
+<script src="codigo/aplicativo.js"></script>
 </body>
 </html>

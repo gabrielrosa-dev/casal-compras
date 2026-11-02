@@ -1,0 +1,60 @@
+/* Cores do tema (canais RGB para permitir transparência). */
+:root {
+  --page: 248 245 255;
+  --surface: 255 255 255;
+  --soft: 243 238 253;
+  --line: 232 224 248;
+  --ink: 30 27 46;
+  --mute: 100 94 125;
+  --faint: 160 154 182;
+  --brand: 124 58 237;        /* violeta */
+  --brand-soft: 237 233 254;
+  --brand-line: 196 181 253;
+  --brand-ink: 109 40 217;
+  --accent: 219 39 119;       /* rosa */
+  --glow-a: 167 139 250 / .28;
+  --glow-b: 244 114 182 / .20;
+}
+
+.dark {
+  --page: 15 11 26;
+  --surface: 26 21 42;
+  --soft: 38 32 60;
+  --line: 54 46 82;
+  --ink: 243 240 255;
+  --mute: 168 160 196;
+  --faint: 110 102 140;
+  --brand: 139 92 246;
+  --brand-soft: 46 33 82;
+  --brand-line: 109 80 190;
+  --brand-ink: 196 181 253;
+  --accent: 244 114 182;
+  --glow-a: 124 58 237 / .25;
+  --glow-b: 219 39 119 / .15;
+  color-scheme: dark;
+}
+
+html, body { -webkit-tap-highlight-color: transparent; overscroll-behavior-y: none; }
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background-image:
+    radial-gradient(circle at 0% 0%, rgb(var(--glow-a)), transparent 45%),
+    radial-gradient(circle at 100% 20%, rgb(var(--glow-b)), transparent 40%);
+  background-attachment: fixed;
+  transition: background-color .2s, color .2s;
+}
+::placeholder { color: rgb(var(--faint)); }
+
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+.safe-top { padding-top: env(safe-area-inset-top); }
+
+.tap { transition: transform .08s; }
+.tap:active { transform: scale(.96); }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.view { animation: fadeUp .18s ease-out; }
+
+@keyframes scan { 0% { top: 6%; } 50% { top: 90%; } 100% { top: 6%; } }
+.scanline { animation: scan 1.4s linear infinite; }
+
+input[type=number]::-webkit-inner-spin-button { display: none; }
