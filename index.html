@@ -25,25 +25,43 @@
 <header class="fixed top-0 inset-x-0 z-30 bg-violet-700 text-white safe-top">
   <div class="max-w-2xl mx-auto px-4 py-2 flex items-center justify-between gap-2">
     <div class="flex items-center gap-2 min-w-0">
+      <button id="menuBtn" aria-label="Abrir menu" aria-controls="menuLateral" aria-expanded="false" title="Menu" class="tap w-9 h-9 -ml-1 rounded-full hover:bg-white/15 flex items-center justify-center">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
       <div class="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center shrink-0"><i data-lucide="shopping-basket" class="w-5 h-5"></i></div>
       <h1 class="font-bold text-base truncate">CasalCompras</h1>
     </div>
-    <div class="flex items-center gap-1 shrink-0">
-      <button id="themeBtn" data-theme-toggle aria-label="Alternar tema claro/escuro" title="Tema" class="tap w-8 h-8 rounded-full hover:bg-white/15 flex items-center justify-center"></button>
-      <button id="settingsBtn" data-tab="settings" aria-label="Ajustes" title="Ajustes" class="tap w-8 h-8 rounded-full hover:bg-white/15 flex items-center justify-center"></button>
-      <div id="profileSwitch" class="flex bg-black/20 rounded-full p-1 text-sm font-semibold"></div>
-    </div>
+    <div id="profileSwitch" class="flex bg-black/20 rounded-full p-1 text-sm font-semibold shrink-0"></div>
   </div>
 </header>
 
-<main id="view" class="max-w-2xl mx-auto px-4 pt-[64px] pb-20"></main>
+<main id="view" class="max-w-2xl mx-auto px-4 pt-[64px] pb-6"></main>
 <datalist id="names"></datalist>
 
-<nav id="nav" aria-label="Navegação principal" class="fixed bottom-0 inset-x-0 z-30 bg-surface/95 backdrop-blur border-t border-line safe-bottom">
-  <div id="tabs" class="max-w-2xl mx-auto grid grid-cols-6 px-1"></div>
-</nav>
+<div id="menuFundo" class="menu-fundo hidden" data-menu-close></div>
+<aside id="menuLateral" class="menu-lateral hidden safe-top safe-bottom" role="dialog" aria-modal="true" aria-label="Menu do aplicativo">
+  <div class="flex items-center justify-between px-4 py-3 border-b border-line">
+    <h2 class="font-bold">Navegação</h2>
+    <button data-menu-close aria-label="Fechar menu" title="Fechar" class="tap w-9 h-9 rounded-full hover:bg-soft flex items-center justify-center">
+      <i data-lucide="x" class="w-5 h-5"></i>
+    </button>
+  </div>
+  <nav id="nav" aria-label="Navegação principal" class="p-3">
+    <div id="tabs" class="space-y-1"></div>
+  </nav>
+  <div class="border-t border-line p-3 space-y-1">
+    <button id="themeBtn" data-theme-toggle class="tap w-full rounded-xl px-3 py-3 flex items-center gap-3 text-left hover:bg-soft">
+      <i data-lucide="moon" class="w-5 h-5 text-brand"></i>
+      <span id="themeLabel" class="font-semibold text-sm">Modo escuro</span>
+    </button>
+    <button id="settingsBtn" data-tab="settings" class="tap w-full rounded-xl px-3 py-3 flex items-center gap-3 text-left hover:bg-soft">
+      <i data-lucide="settings" class="w-5 h-5 text-brand"></i>
+      <span class="font-semibold text-sm">Configurações</span>
+    </button>
+  </div>
+</aside>
 
-<div id="toast" role="status" class="fixed left-1/2 -translate-x-1/2 bottom-20 z-50 hidden max-w-[90%] bg-gray-900 text-white text-sm px-4 py-2 rounded-full shadow-lg text-center"></div>
+<div id="toast" role="status" class="fixed left-1/2 -translate-x-1/2 bottom-5 z-50 hidden max-w-[90%] bg-gray-900 text-white text-sm px-4 py-2 rounded-full shadow-lg text-center"></div>
 
 <noscript><p class="p-6 text-center">O CasalCompras precisa de JavaScript para funcionar.</p></noscript>
 

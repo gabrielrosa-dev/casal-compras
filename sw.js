@@ -1,5 +1,5 @@
 // Aumente a versão sempre que publicar mudanças, para limpar o cache antigo.
-const CACHE = 'casalcompras-2.4.0';
+const CACHE = 'casalcompras-2.4.1';
 
 const APP_SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'estilos/estilos.css',

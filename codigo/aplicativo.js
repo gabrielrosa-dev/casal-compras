@@ -14,26 +14,37 @@ const ROUTES = {
 /* ============ Renderização ============ */
 
 function renderChrome() {
-  $('#themeBtn').innerHTML = `<i data-lucide="${isDark() ? 'sun' : 'moon'}" class="w-5 h-5"></i>`;
-  $('#settingsBtn').innerHTML = '<i data-lucide="settings" class="w-5 h-5"></i>';
-  $('#settingsBtn').classList.toggle('bg-white/40', tab === 'settings');
+  $('#themeBtn').innerHTML = `<i data-lucide="${isDark() ? 'sun' : 'moon'}" class="w-5 h-5 text-brand"></i><span class="font-semibold text-sm">${isDark() ? 'Modo claro' : 'Modo escuro'}</span>`;
+  $('#settingsBtn').classList.toggle('bg-brand-soft', tab === 'settings');
   $('#profileSwitch').innerHTML = APP.people.map(p =>
     `<button data-profile="${p}" class="tap px-3 py-1 rounded-full ${state.profile === p ? 'bg-white text-violet-700' : 'text-white/90'}">${p}</button>`).join('');
   $('#tabs').innerHTML = TABS.map(([id, ic, label]) => {
     const on = tab === id;
-    return `<button data-tab="${id}" aria-label="${label}" aria-current="${on ? 'page' : 'false'}" title="${label}" class="tap min-h-11 flex items-center justify-center ${on ? 'text-brand' : 'text-faint'}">
-      <span class="${on ? 'bg-brand-soft' : ''} w-10 h-9 flex items-center justify-center rounded-full"><i data-lucide="${ic}" class="w-5 h-5"></i></span>
-      <span class="sr-only">${label}</span></button>`;
+    return `<button data-tab="${id}" aria-current="${on ? 'page' : 'false'}" class="tap w-full min-h-11 rounded-xl px-3 flex items-center gap-3 text-left ${on ? 'bg-brand-soft text-brand-ink font-bold' : 'text-ink hover:bg-soft'}">
+      <i data-lucide="${ic}" class="w-5 h-5 ${on ? 'text-brand' : 'text-mute'}"></i><span class="text-sm">${label}</span></button>`;
   }).join('');
 }
 
 function render() {
   const onboarding = !state.onboarded;
-  $('#nav').classList.toggle('hidden', onboarding);
+  $('#menuBtn').classList.toggle('hidden', onboarding);
+  if (onboarding) closeMenu();
   renderChrome();
   $('#names').innerHTML = knownNames().map(n => `<option value="${esc(n)}">`).join('');
   $('#view').innerHTML = `<div class="view">${onboarding ? '' : (tab === 'list' || tab === 'settings' ? installBanner() : '')}${(onboarding ? vOnboarding : ROUTES[tab])()}</div>`;
   lucide.createIcons();
+}
+
+function openMenu() {
+  $('#menuFundo').classList.remove('hidden');
+  $('#menuLateral').classList.remove('hidden');
+  $('#menuBtn').setAttribute('aria-expanded', 'true');
+}
+
+function closeMenu() {
+  $('#menuFundo').classList.add('hidden');
+  $('#menuLateral').classList.add('hidden');
+  $('#menuBtn').setAttribute('aria-expanded', 'false');
 }
 
 /* ============ Ações (botões com data-act) ============ */
@@ -244,13 +255,15 @@ const actions = {
 /* ============ Eventos ============ */
 
 document.addEventListener('click', e => {
+  if (e.target.closest('#menuBtn')) { openMenu(); return; }
+  if (e.target.closest('[data-menu-close]')) { closeMenu(); return; }
   if (e.target.closest('[data-theme-toggle]')) { toggleTheme(); return render(); }
 
   const pb = e.target.closest('[data-profile]');
   if (pb) { state.profile = pb.dataset.profile; save(); toast(`Perfil: ${state.profile}`); return render(); }
 
   const tb = e.target.closest('[data-tab]');
-  if (tb) { tab = tb.dataset.tab; render(); return window.scrollTo(0, 0); }
+  if (tb) { tab = tb.dataset.tab; closeMenu(); render(); return window.scrollTo(0, 0); }
 
   const b = e.target.closest('[data-act]');
   if (!b || b.disabled || !actions[b.dataset.act]) return;

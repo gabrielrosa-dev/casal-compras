@@ -9,11 +9,26 @@ const scripts = [...fs.readFileSync(path.join(root, 'index.html'), 'utf8').match
 function makeContext({ fetchImpl } = {}) {
   const els = {};
   const store = {};
-  const mkEl = () => ({
-    innerHTML: '', textContent: '', value: '', dataset: {}, files: [],
-    classList: { add() {}, remove() {}, toggle() {}, contains: () => false },
-    click() {}, focus() {}
-  });
+  const mkEl = () => {
+    const classes = new Set();
+    const attributes = {};
+    return {
+      innerHTML: '', textContent: '', value: '', dataset: {}, files: [],
+      classList: {
+        add: c => classes.add(c),
+        remove: c => classes.delete(c),
+        toggle(c, force) {
+          const add = force === undefined ? !classes.has(c) : force;
+          if (add) classes.add(c); else classes.delete(c);
+          return add;
+        },
+        contains: c => classes.has(c)
+      },
+      click() {}, focus() {},
+      setAttribute: (name, value) => { attributes[name] = String(value); },
+      getAttribute: name => attributes[name]
+    };
+  };
   const htmlClasses = new Set();
 
   const sandbox = {

@@ -292,6 +292,24 @@ await test('todas as telas renderizam sem erro, NaN ou undefined', () => {
   }
 });
 
+await test('menu lateral mostra nomes das áreas, tema e configurações', () => {
+  fresh();
+  render();
+  for (const label of ['Lista', 'Histórico', 'Receitas', 'Preços', 'Nota', 'Mercado']) {
+    assert.ok(__els['#tabs'].innerHTML.includes(`>${label}</span>`), `${label} deve aparecer no menu`);
+  }
+  assert.ok(__els['#themeBtn'].innerHTML.includes('Modo escuro'));
+  assert.ok(__els['#settingsBtn']);
+  openMenu();
+  assert.strictEqual(__els['#menuLateral'].classList.contains('hidden'), false);
+  assert.strictEqual(__els['#menuFundo'].classList.contains('hidden'), false);
+  assert.strictEqual(__els['#menuBtn'].getAttribute('aria-expanded'), 'true');
+  closeMenu();
+  assert.strictEqual(__els['#menuLateral'].classList.contains('hidden'), true);
+  assert.strictEqual(__els['#menuFundo'].classList.contains('hidden'), true);
+  assert.strictEqual(__els['#menuBtn'].getAttribute('aria-expanded'), 'false');
+});
+
 await test('nomes com HTML são escapados nas telas', () => {
   fresh();
   const evil = '<img src=x onerror=alert(1)>';
